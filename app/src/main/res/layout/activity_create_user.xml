@@ -9,17 +9,22 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:hint="User name"
             android:id="@+id/username"/>
 
         <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:textSize="16dp"
             android:text="Preferences"/>
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
-            android:background="#c0c0c0"/>
+            android:background="#c0c0c0"
+            android:layout_marginBottom="5dp"/>
         <CheckBox
             android:id="@+id/news"
             android:layout_width="wrap_content"
@@ -44,14 +49,11 @@
             android:layout_height="wrap_content"
             android:text="Cricket Scores"
             android:tag="cricket"/>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add User"
+            android:layout_gravity="center_horizontal"
             android:id="@+id/add"/>
 
 </LinearLayout>

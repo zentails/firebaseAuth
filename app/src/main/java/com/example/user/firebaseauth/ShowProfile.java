@@ -1,5 +1,6 @@
 package com.example.user.firebaseauth;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -26,11 +27,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ShowProfile extends AppCompatActivity {
+public class ShowProfile extends BaseActivity {
 
     private DatabaseReference mDatabase,childNodes;
     private Button addUserBtn;
     private LinearLayout root;
+    private FirebaseBackgroundService mService;
+    private Intent mServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,15 @@ public class ShowProfile extends AppCompatActivity {
             mDatabase = FirebaseDatabase.getInstance().getReference();
             childNodes = mDatabase.child("users").child(user.getUid()).child("users");
 
+
+            Intent i = new Intent(getApplicationContext(), FirebaseBackgroundService.class);
+            startService(i);
+
+            mServiceIntent = new Intent(this, FirebaseBackgroundService.class);
+            if (!isMyServiceRunning(FirebaseBackgroundService.class)) {
+                startService(mServiceIntent);
+            }
+
             childNodes.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -56,6 +68,8 @@ public class ShowProfile extends AppCompatActivity {
                         TextView text = new TextView(getApplicationContext());
                         text.setText(dataSnapshot.child(""+i).getValue(User.class).username);
                         text.setTag(i+"");
+                        text.setPadding(10,0,0,0);
+                        text.setTextSize(20);
                         text.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -91,26 +105,29 @@ public class ShowProfile extends AppCompatActivity {
         });
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.addUser:
-                Intent i = new Intent(getApplicationContext(), CreateUser.class);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    protected void onDestroy() {
+        stopService(new Intent(getApplicationContext(), FirebaseBackgroundService.class));
+        Log.i("MAINACT", "onDestroy!");
+        super.onDestroy();
+
     }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(this.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
+    }
+
+
 
     public void showProfile(String tag){
         Intent i =  new Intent(getApplicationContext(),EditProfile.class);

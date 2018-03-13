@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class EditProfile extends AppCompatActivity {
+public class EditProfile extends BaseActivity {
 
     private HashMap<String, Boolean> selectedOptions = new HashMap<>();
     private String[] options = {"news", "cricket", "music","weather"};

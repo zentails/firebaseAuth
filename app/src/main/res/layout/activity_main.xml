@@ -8,6 +8,7 @@
     tools:context="com.example.user.firebaseauth.MainActivity">
 
     <EditText
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -19,6 +20,7 @@
         android:hint="Password"
         android:id="@+id/pass"/>
     <Button
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"

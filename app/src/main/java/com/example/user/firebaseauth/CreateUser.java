@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CreateUser extends AppCompatActivity {
+public class CreateUser extends BaseActivity {
 
     private HashMap<String, Boolean> selectedOptions = new HashMap<>();
     private String[] options = {"news", "cricket", "music","weather"};

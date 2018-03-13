@@ -32,12 +32,28 @@ public class MainActivity extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.pass);
         mAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser u = mAuth.getCurrentUser();
+        if(u != null){
+            Intent i = new Intent(this, ShowProfile.class);
+            startActivity(i);
+        }
+
         loginButton.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View view) {
                   signIn(user.getText().toString(),pass.getText().toString());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser u = mAuth.getCurrentUser();
+        if(u != null){
+            Intent i = new Intent(this, ShowProfile.class);
+            startActivity(i);
+        }
     }
 
     public void signIn(final String user, String pass){

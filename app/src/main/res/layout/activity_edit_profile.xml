@@ -7,26 +7,36 @@
     android:orientation="vertical"
     tools:context="com.example.user.firebaseauth.EditProfile">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/username"/>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:background="#c0c0c0"/>
+        android:background="#c0c0c0"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Preferences"/>
+        android:text="Preferences"
+        android:textSize="16dp"
+
+        android:paddingLeft="5dp"/>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
+        android:layout_marginBottom="5dp"
         android:background="#c0c0c0"/>
     <CheckBox
         android:id="@+id/news"
@@ -52,24 +62,27 @@
         android:layout_height="wrap_content"
         android:text="Cricket Scores"
         android:tag="cricket"/>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Changes"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/makeChanges"/>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stand in front of the Mirror and click photo button"/>
+        android:textSize="16dp"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:text="Take Photo"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        android:layout_marginBottom="5dp"/>
+
     <Button
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Take Photo"
