@@ -25,6 +25,8 @@ public class FirebaseBackgroundService extends Service {
     private FirebaseUser user;
     private DatabaseReference mDatabase,childRef;
     private ValueEventListener handler;
+    private DataSnapshot d;
+    private String tt,body;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -44,16 +46,14 @@ public class FirebaseBackgroundService extends Service {
         handler = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot arg0) {
+                d = arg0;
                 if(arg0 != null) {
-                    com.example.user.firebaseauth.Notification temp;
-                    temp = arg0.child(String.valueOf(arg0.getChildrenCount())).getValue(com.example.user.firebaseauth.Notification.class);
-                    if(temp != null){
-                        String tt = temp.tt;
-                        String body = temp.body;
-                        if(temp.read == false){
-                            postNotif(tt,body);
-                        }
+                    tt = arg0.child(String.valueOf(arg0.getChildrenCount())).getValue(com.example.user.firebaseauth.Notification.class).tt;
+                    body = arg0.child(String.valueOf(arg0.getChildrenCount())).getValue(com.example.user.firebaseauth.Notification.class).body;
+                    if (arg0.child(String.valueOf(arg0.getChildrenCount())).getValue(com.example.user.firebaseauth.Notification.class).read == false) {
+                        postNotif(tt, body);
                     }
+
                 }
             }
 
@@ -69,20 +69,22 @@ public class FirebaseBackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        return Service.START_STICKY;
+        return START_STICKY;
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent broadcastIntent = new Intent("com.example.user.firebaseauth.RESTART_SERVICE");
-        sendBroadcast(broadcastIntent);
+        //Intent broadcastIntent = new Intent("com.example.user.firebaseauth.RESTART_SERVICE");
+        //sendBroadcast(broadcastIntent);
     }
 
-    private void postNotif(String title, String body) {
+    private void postNotif(String title, String bdy) {
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, ShowProfile.class);
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra("TITLE",title);
+        intent.putExtra("BODY",bdy);
         // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
@@ -90,7 +92,7 @@ public class FirebaseBackgroundService extends Service {
 // the addAction re-use the same intent to keep the example short
         Notification n  = new Notification.Builder(this)
                 .setContentTitle(title)
-                .setContentText(body)
+                .setContentText(bdy)
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                 .setContentIntent(pIntent)
                 .setAutoCancel(true)
@@ -101,6 +103,8 @@ public class FirebaseBackgroundService extends Service {
         notificationManager.notify(0, n);
 
 
+        com.example.user.firebaseauth.Notification noti = new com.example.user.firebaseauth.Notification(tt,body,true);
+        childRef.child(String.valueOf(d.getChildrenCount())).setValue(noti);
 
     }
 }

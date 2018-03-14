@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class EditProfile extends BaseActivity {
 
@@ -29,6 +30,9 @@ public class EditProfile extends BaseActivity {
     private CheckBox news,weather,music,cricket;
     private Button edit,photo;
     private String id;
+    private Random rand = new Random();
+    private DataSnapshot ds;
+    private String childC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +62,39 @@ public class EditProfile extends BaseActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         childNodes = mDatabase.child("users").child(user.getUid()).child("users").child(id);
 
+        mDatabase.child("users").child(user.getUid()).child("photoQueue").addValueEventListener( new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ds = dataSnapshot;
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+        mDatabase.child("users").child(user.getUid()).child("users").addValueEventListener( new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                childC = String.valueOf(dataSnapshot.getChildrenCount());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
         childNodes.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //User post = dataSnapshot.getValue(User.class);
                 //Toast.makeText(CreateUser.this, post.username, Toast.LENGTH_SHORT).show();
                // childCount = dataSnapshot.getChildrenCount();
+
                 username.setText(dataSnapshot.getValue(User.class).username);
 
                 cricket.setChecked(dataSnapshot.child("preferences").getValue(Preferences.class).cricket);
@@ -95,13 +126,17 @@ public class EditProfile extends BaseActivity {
     }
 
     public void takePhoto(){
-        mDatabase.child("users").child(user.getUid()).child("photoQueue").child(id).setValue(true);
+        long countC = ds.getChildrenCount();
+        Toast.makeText(this, String.valueOf(countC + 1), Toast.LENGTH_SHORT).show();
+        //int countChild = dref.c
+        photoQueue pQ = new photoQueue(id,false);
+        mDatabase.child("users").child(user.getUid()).child("photoQueue").child(String.valueOf(countC + 1)).setValue(pQ);
         //Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show();
     }
 
     public void makeChanges(){
         Preferences p = new Preferences(selectedOptions);
-        User usr = new User(username.getText().toString(),p);
+        User usr = new User(username.getText().toString(),String.valueOf(childC + 1),p);
         //mDatabase.child("users").child(userId).setValue(user);
         mDatabase.child("users").child(user.getUid()).child("users").child(id).setValue(usr);
         

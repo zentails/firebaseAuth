@@ -10,8 +10,16 @@ public class Notification {
     public String body;
     public boolean read;
 
-    public Notification() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    public Notification(){
+
     }
+
+    public Notification(String title, String body, boolean read) {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        this.tt = title;
+        this.body = body;
+        this.read = read;
+    }
+
 
 }

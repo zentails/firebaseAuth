@@ -99,7 +99,7 @@ public class CreateUser extends BaseActivity {
 
     public void addUser(){
         Preferences p = new Preferences(selectedOptions);
-        User usr = new User(username.getText().toString(),p);
+        User usr = new User(username.getText().toString(),String.valueOf(childCount + 1),p);
         //mDatabase.child("users").child(userId).setValue(user);
         mDatabase.child("users").child(user.getUid()).child("users").child(String.valueOf(childCount + 1)).setValue(usr);
         Intent i = new Intent(getApplicationContext(),ShowProfile.class);

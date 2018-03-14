@@ -38,7 +38,7 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.logout:
                 // do what you want here
                 FirebaseAuth.getInstance().signOut();
-
+                stopService(new Intent(this, FirebaseBackgroundService.class));
                 return true;
             case R.id.login:
                 // do what you want here

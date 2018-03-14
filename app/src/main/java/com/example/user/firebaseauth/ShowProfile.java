@@ -2,6 +2,7 @@ package com.example.user.firebaseauth;
 
 import android.app.ActivityManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,8 @@ public class ShowProfile extends BaseActivity {
                         TextView text = new TextView(getApplicationContext());
                         text.setText(dataSnapshot.child(""+i).getValue(User.class).username);
                         text.setTag(i+"");
-                        text.setPadding(10,0,0,0);
+                        text.setTextColor(Color.BLACK);
+                        text.setPadding(10,0,0,8);
                         text.setTextSize(20);
                         text.setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user.firebaseauth">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,14 +36,14 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" >
-                </action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
             <intent-filter>
-                <action android:name="com.example.user.firebaseauth.RESTART_SERVICE" >
-                </action>
+                <action android:name="com.example.user.firebaseauth.RESTART_SERVICE"></action>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".MessageActivity"></activity>
     </application>
 
 </manifest>
